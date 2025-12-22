@@ -98,8 +98,6 @@ class BreakingTimeSimulation : PacketChecker() {
                 event.isCancelled = true
             }
         }
-        AntiCivBreak.instance.server.broadcast(Component.text("Prediction: ${predictionTicks}, Actual: ${totalTicks}, Diff: ${diffTicks}"))
-
     }
 
     private fun isProperTool(m: Material) : Boolean {
