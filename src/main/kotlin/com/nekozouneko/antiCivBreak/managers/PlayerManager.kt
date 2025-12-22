@@ -1,6 +1,5 @@
 package com.nekozouneko.antiCivBreak.managers
 
-import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
 

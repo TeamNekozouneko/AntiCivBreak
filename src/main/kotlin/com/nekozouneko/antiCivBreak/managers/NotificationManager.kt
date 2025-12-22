@@ -17,7 +17,7 @@ class NotificationManager {
         }
 
         private fun getTargets(): List<Player> {
-            return AntiCivBreak.Companion.instance.server.onlinePlayers.filter {
+            return AntiCivBreak.instance.server.onlinePlayers.filter {
                 it.hasPermission("anticivbreak.notify")
             }
         }
