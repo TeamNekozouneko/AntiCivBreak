@@ -2,3 +2,5 @@ name: AntiCivBreak
 version: '1.0-SNAPSHOT'
 main: com.nekozouneko.antiCivBreak.AntiCivBreak
 api-version: '1.21'
+depend:
+  - PacketEvents
