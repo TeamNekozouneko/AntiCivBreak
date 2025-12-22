@@ -6,6 +6,7 @@ import com.github.retrooper.packetevents.protocol.packettype.PacketType
 import com.github.retrooper.packetevents.protocol.player.DiggingAction
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerDigging
 import com.nekozouneko.antiCivBreak.AntiCivBreak
+import org.bukkit.GameMode
 import org.bukkit.Material
 
 class PacketListener : PacketListener {
@@ -14,6 +15,9 @@ class PacketListener : PacketListener {
 
         val action = WrapperPlayClientPlayerDigging(event)
         val manager = AntiCivBreak.getManager(event.user.uuid) ?: return
+
+        //GameMode Check
+        if(manager.player.gameMode != GameMode.SURVIVAL) return
 
         //Material Check
         if(action.action == DiggingAction.START_DIGGING || action.action == DiggingAction.FINISHED_DIGGING){
