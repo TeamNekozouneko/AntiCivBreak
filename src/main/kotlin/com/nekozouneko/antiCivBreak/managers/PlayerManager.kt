@@ -1,6 +1,7 @@
 package com.nekozouneko.antiCivBreak.managers
 
 import net.kyori.adventure.text.Component
+import org.bukkit.Material
 import org.bukkit.entity.Player
 
 class PlayerManager(val player: Player) {
@@ -27,8 +28,13 @@ class PlayerManager(val player: Player) {
     fun tick(){
         if(lastEndStoneDigStarted == -1L) return
         if(!player.isOnGround) totalAirTicks ++
-        if(player.isInWater) totalInWaterTicks ++
+        if(isInWater(player)) totalInWaterTicks ++
 
         player.sendActionBar(Component.text("totalTicks: ${(endStoneDiggingDuration ?: 0) / 50}, airTicks: ${airTicks}, inWaterTicks: ${inWaterTicks}"))
+    }
+
+    private fun isInWater(player: Player): Boolean {
+        val eyeBlock = player.eyeLocation.block
+        return eyeBlock.type == Material.WATER
     }
 }
