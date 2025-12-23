@@ -37,5 +37,7 @@ class PacketListener : PacketListener {
             DiggingAction.CANCELLED_DIGGING -> manager.resetEndStoneDigging()
             else -> return
         }
+
+        manager.setLastAction(action.action)
     }
 }

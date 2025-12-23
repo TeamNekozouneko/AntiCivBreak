@@ -1,5 +1,6 @@
 package com.nekozouneko.antiCivBreak.managers
 
+import com.github.retrooper.packetevents.protocol.player.DiggingAction
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
@@ -7,6 +8,7 @@ class PlayerManager(val player: Player) {
     private var lastEndStoneDigStarted: Long = -1L
     private var totalAirTicks = -1
     private var totalInWaterTicks = -1
+    private var packetLastAction: DiggingAction? = null
 
     val endStoneDiggingDuration: Long?
         get() = lastEndStoneDigStarted.takeIf { it != -1L }?.let { System.currentTimeMillis() - it }
@@ -14,6 +16,12 @@ class PlayerManager(val player: Player) {
         get() = totalAirTicks.takeIf { it != -1}
     val inWaterTicks: Int?
         get() = totalInWaterTicks.takeIf { it != -1 }
+    val lastAction: DiggingAction?
+        get() = packetLastAction
+
+    fun setLastAction(action: DiggingAction) {
+        packetLastAction = action
+    }
 
     fun startEndStoneDigging() {
         lastEndStoneDigStarted = System.currentTimeMillis()
