@@ -1,5 +1,5 @@
 name: AntiCivBreak
-version: '1.0-SNAPSHOT'
+version: ${version}
 main: com.nekozouneko.antiCivBreak.AntiCivBreak
 api-version: '1.21'
 depend:
