@@ -4,11 +4,12 @@ import com.nekozouneko.antiCivBreak.AntiCivBreak
 import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 
 class BlockBreakListener : Listener {
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     fun onBreak(e: BlockBreakEvent){
         if(e.player.gameMode != GameMode.SURVIVAL) return
         if(e.block.type != Material.END_STONE) return
