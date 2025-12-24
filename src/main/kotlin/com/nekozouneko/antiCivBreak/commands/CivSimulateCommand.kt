@@ -30,6 +30,7 @@ class CivSimulateCommand : CommandExecutor, TabExecutor {
 
         when(type) {
             "A" -> simulateA(manager.packetUser, x, y, z, tick)
+            "B" -> simulateB(manager.packetUser, x, y, z, tick)
             else -> return false
         }
 
@@ -56,7 +57,7 @@ class CivSimulateCommand : CommandExecutor, TabExecutor {
 
             override fun run() {
                 if (count >= 20) {
-                    this.cancel() // 3回送ったら終了
+                    this.cancel()
                     return
                 }
 
@@ -65,6 +66,24 @@ class CivSimulateCommand : CommandExecutor, TabExecutor {
                 }else {
                     user.receivePacket(generatePacket(DiggingAction.FINISHED_DIGGING, x, y, z))
                 }
+
+                count++
+            }
+        }.runTaskTimer(AntiCivBreak.instance, 0L, tick)
+    }
+
+    private fun simulateB(user: User, x: Int, y: Int, z: Int, tick: Long){
+        user.receivePacket(generatePacket(DiggingAction.START_DIGGING, x, y, z))
+        object : BukkitRunnable() {
+            private var count = 0
+
+            override fun run() {
+                if (count >= 10) {
+                    this.cancel()
+                    return
+                }
+
+                user.receivePacket(generatePacket(DiggingAction.FINISHED_DIGGING, x, y, z))
 
                 count++
             }
