@@ -11,13 +11,16 @@ import kotlin.math.pow
 class BlockBreakSimulator {
     companion object {
         const val END_STONE_HARDNESS = 3 //基本硬度
+        private const val LOW_BIAS = 1.025
+        private const val MID_BIAS = 1.05
+        private const val HIGH_BIAS = 1.075
         private val properToolMultiple: Map<Material, Double> = mapOf(
-            Material.WOODEN_PICKAXE to 2.0,
-            Material.STONE_PICKAXE to 4.0,
-            Material.IRON_PICKAXE to 6.0,
-            Material.DIAMOND_PICKAXE to 8.0,
-            Material.NETHERITE_PICKAXE to 9.0,
-            Material.GOLDEN_PICKAXE to 12.0
+            Material.WOODEN_PICKAXE to 2.0 * LOW_BIAS,
+            Material.STONE_PICKAXE to 4.0 * LOW_BIAS,
+            Material.IRON_PICKAXE to 6.0 * LOW_BIAS,
+            Material.DIAMOND_PICKAXE to 8.0 * LOW_BIAS,
+            Material.NETHERITE_PICKAXE to 9.0 * HIGH_BIAS,
+            Material.GOLDEN_PICKAXE to 12.0 * MID_BIAS
         )
         private val fatigueMultiple: List<Double> = listOf(1.0, 0.3, 0.09, 0.0027, 0.00081)
 
@@ -69,7 +72,7 @@ class BlockBreakSimulator {
                 100
             }
 
-            return ceil(END_STONE_HARDNESS / breakSpeed)
+            return END_STONE_HARDNESS / breakSpeed
         }
 
         private fun isProperTool(m: Material) : Boolean {
