@@ -8,9 +8,13 @@ depend:
 commands:
   packetcapture:
     permission: anticivbreak.commands.packetcapture
+  civsimulate:
+    permission: anticivbreak.commands.civsimulate
 
 permissions:
   anticivbreak.commands.packetcapture:
+    default: op
+  anticivbreak.commands.civsimulate:
     default: op
   anticivbreak.notify:
     default: op
