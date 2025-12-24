@@ -7,12 +7,15 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 
 class PlayerManager(val player: Player) {
+    companion object{
+        private const val LAST_ACTION_QUEUE_SIZE = 3
+    }
     var isPacketCaptureEnabled = false
 
     private var lastEndStoneDigStarted: Long = -1L
     private var totalAirTicks = -1
     private var totalInWaterTicks = -1
-    private var packetLastAction: DiggingAction? = null
+    private var packetLastActions = ArrayDeque<DiggingAction>(LAST_ACTION_QUEUE_SIZE)
 
     val packetUser: User
         get() = PacketEvents.getAPI().playerManager.getUser(player)
@@ -23,11 +26,14 @@ class PlayerManager(val player: Player) {
         get() = totalAirTicks.takeIf { it != -1}
     val inWaterTicks: Int?
         get() = totalInWaterTicks.takeIf { it != -1 }
-    val lastAction: DiggingAction?
-        get() = packetLastAction
+    val lastActions: List<DiggingAction>
+        get() = packetLastActions.toList()
 
-    fun setLastAction(action: DiggingAction) {
-        packetLastAction = action
+    fun addAction(action: DiggingAction) {
+        if (packetLastActions.size >= LAST_ACTION_QUEUE_SIZE) {
+            packetLastActions.removeFirst()
+        }
+        packetLastActions.addLast(action)
     }
 
     fun startEndStoneDigging() {

@@ -56,6 +56,6 @@ class PacketListener : PacketListener {
             else -> return
         }
 
-        manager.setLastAction(action.action)
+        manager.addAction(action.action)
     }
 }
