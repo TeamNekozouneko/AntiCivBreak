@@ -31,6 +31,7 @@ class CivSimulateCommand : CommandExecutor, TabExecutor {
         when(type) {
             "A" -> simulateA(manager.packetUser, x, y, z, tick)
             "B" -> simulateB(manager.packetUser, x, y, z, tick)
+            "C" -> simulateC(manager.packetUser, x, y, z, tick)
             else -> return false
         }
 
@@ -84,6 +85,28 @@ class CivSimulateCommand : CommandExecutor, TabExecutor {
                 }
 
                 user.receivePacket(generatePacket(DiggingAction.FINISHED_DIGGING, x, y, z))
+
+                count++
+            }
+        }.runTaskTimer(AntiCivBreak.instance, 0L, tick)
+    }
+
+    private fun simulateC(user: User, x: Int, y: Int, z: Int, tick: Long){
+        user.receivePacket(generatePacket(DiggingAction.START_DIGGING, x, y, z))
+        object : BukkitRunnable() {
+            private var count = 0
+
+            override fun run() {
+                if (count >= 20) {
+                    this.cancel()
+                    return
+                }
+
+                if(count % 2 == 0) {
+                    user.receivePacket(generatePacket(DiggingAction.CANCELLED_DIGGING, x, y, z))
+                }else {
+                    user.receivePacket(generatePacket(DiggingAction.FINISHED_DIGGING, x, y, z))
+                }
 
                 count++
             }
