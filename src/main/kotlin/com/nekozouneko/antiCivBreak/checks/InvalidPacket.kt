@@ -14,7 +14,6 @@ class InvalidPacket : PacketChecker() {
     }
     companion object {
         val invalidPacketBeforeFinished: List<DiggingAction> = listOf(
-            DiggingAction.CANCELLED_DIGGING,
             DiggingAction.FINISHED_DIGGING
         )
     }
