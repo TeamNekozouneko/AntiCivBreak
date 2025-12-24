@@ -18,7 +18,7 @@ class CivSimulateCommand : CommandExecutor, TabExecutor {
     private var fakeSequence = 0
     override fun onCommand(p0: CommandSender, p1: Command, p2: String, p3: Array<out String>): Boolean {
         if(p0 !is Player) return false
-        if(p3.size < 4) return false
+        if(p3.size < 5) return false
         val type = p3[0]
         val x = p3[1].toInt()
         val y = p3[2].toInt()
