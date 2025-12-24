@@ -8,7 +8,6 @@ import com.nekozouneko.antiCivBreak.managers.PlayerManager
 import com.nekozouneko.antiCivBreak.utils.BlockBreakSimulator
 import com.nekozouneko.antiCivBreak.utils.PacketUtils
 import net.kyori.adventure.text.Component
-import kotlin.math.abs
 
 class BreakingTimeSimulation : PacketChecker() {
     init {
@@ -24,11 +23,10 @@ class BreakingTimeSimulation : PacketChecker() {
 
         val predictionTicks = BlockBreakSimulator.getEndStonePredictionTicks(manager) ?: return
         val diffTicks = predictionTicks - totalTicks
-        val ratio = (totalTicks - predictionTicks) / predictionTicks
         if(predictionTicks == 0.0) return
 
         //For Debug Mode
-        val debugComponent = Component.text("§8[§bBreakingTimeSimulation§8] §fUser: ${manager.player.name}, Prediction: ${predictionTicks}, Actual: ${totalTicks}, Diff: ${diffTicks}, Ratio: ${ratio}")
+        val debugComponent = Component.text("§8[§bBreakingTimeSimulation§8] §fUser: ${manager.player.name}, Prediction: ${predictionTicks}, Actual: ${totalTicks}, Diff: ${diffTicks}")
         for(m in AntiCivBreak.getManagers().filter {
             it.isDebugEnabled
         }) {
