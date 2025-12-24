@@ -49,12 +49,12 @@ class PacketListener : PacketListener {
             for(handler in AntiCivBreak.packetHandlers) handler.handle(manager, action, event)
         }
 
+        manager.addAction(action.action)
+
         when(action.action){
             DiggingAction.START_DIGGING -> manager.startEndStoneDigging()
             DiggingAction.FINISHED_DIGGING -> manager.resetEndStoneDigging()
             else -> return
         }
-
-        manager.addAction(action.action)
     }
 }

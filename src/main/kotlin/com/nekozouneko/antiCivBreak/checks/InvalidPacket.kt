@@ -18,6 +18,7 @@ class InvalidPacket : PacketChecker() {
             PacketUtils.syncClientWithFakeAcknowledge(manager, action)
             violation(manager)
             event.isCancelled = true
+            return
         }
 
         //Pattern: !START_DIGGING → CANCELLED_DIGGING → FINISHED_DIGGING
@@ -29,6 +30,7 @@ class InvalidPacket : PacketChecker() {
                 PacketUtils.syncClientWithFakeAcknowledge(manager, action)
                 violation(manager)
                 event.isCancelled = true
+                return
             }
         }
     }
