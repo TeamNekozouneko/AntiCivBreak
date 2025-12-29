@@ -62,11 +62,8 @@ class CivSimulateCommand : CommandExecutor, TabExecutor {
                     return
                 }
 
-                if(count % 2 == 0) {
-                    user.receivePacket(generatePacket(DiggingAction.START_DIGGING, x, y, z))
-                }else {
-                    user.receivePacket(generatePacket(DiggingAction.FINISHED_DIGGING, x, y, z))
-                }
+                if(count != 0) user.receivePacket(generatePacket(DiggingAction.FINISHED_DIGGING, x, y, z))
+                user.receivePacket(generatePacket(DiggingAction.START_DIGGING, x, y, z))
 
                 count++
             }
