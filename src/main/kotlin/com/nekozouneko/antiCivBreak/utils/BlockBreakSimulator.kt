@@ -12,6 +12,7 @@ import kotlin.math.pow
 class BlockBreakSimulator {
     companion object {
         const val END_STONE_HARDNESS = 3 //基本硬度
+        const val SMOOTH_TARGET_BUFFER_THRESHOLD_MULTIPLIER = 2
         private val properToolMultiple: Map<Material, Double> = mapOf(
             Material.WOODEN_PICKAXE to 2.0,
             Material.STONE_PICKAXE to 4.0,
@@ -69,12 +70,25 @@ class BlockBreakSimulator {
             } else {
                 100
             }
+            var predictionTicks = END_STONE_HARDNESS / breakSpeed
+
+            //Add buffer for Smooth Target
+            if (manager.lastSimulatedTicks != null && manager.lastSimulatedTime != null){
+                val lastSimulateDiffTime = System.currentTimeMillis() - manager.lastSimulatedTime!!
+                val lastSimulateDiffTick = ceil(lastSimulateDiffTime.toDouble() / 50)
+
+                if(lastSimulateDiffTick > manager.lastSimulatedTicks!! * SMOOTH_TARGET_BUFFER_THRESHOLD_MULTIPLIER) {
+                    predictionTicks -= 0.5
+                }
+            }else{
+                predictionTicks -= 0.5
+            }
 
             //For Debug Mode
             val debugMessage = "§8[§bBlockBreakSimulator§8] §fTotalTicks: ${totalTicks}, AirTicks ${airTicks}, InWaterTicks: ${inWaterTicks}"
             NotificationManager.sendDebugMessage(debugMessage)
 
-            return END_STONE_HARDNESS / breakSpeed
+            return predictionTicks
         }
 
         private fun isProperTool(m: Material) : Boolean {

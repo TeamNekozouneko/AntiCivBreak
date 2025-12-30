@@ -17,6 +17,8 @@ class PlayerManager(val player: Player) {
         get() = PacketEvents.getAPI().playerManager.getUser(player)
     val lastActions: List<DiggingAction>
         get() = packetLastActions.toList()
+    var lastSimulatedTicks: Double? = null
+    var lastSimulatedTime: Long? = null
 
     private var packetLastActions = ArrayDeque<DiggingAction>(LAST_ACTION_QUEUE_SIZE)
 

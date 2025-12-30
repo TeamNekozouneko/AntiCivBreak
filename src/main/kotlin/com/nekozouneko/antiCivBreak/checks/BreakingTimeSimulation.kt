@@ -23,7 +23,10 @@ class BreakingTimeSimulation : PacketChecker() {
 
         val predictionTicks = BlockBreakSimulator.getEndStonePredictionTicks(manager, DiggingAction.START_DIGGING, true) ?: return
         val diffTicks = predictionTicks - totalTicks
+
         if(predictionTicks == 0.0) return
+        manager.lastSimulatedTicks = predictionTicks
+        manager.lastSimulatedTime = System.currentTimeMillis()
 
         //For Debug Mode
         val debugMessage = "§8[§bBreakingTimeSimulation§8] §fUser: ${manager.player.name}, Prediction: ${predictionTicks}, Actual: ${totalTicks}, Diff: ${diffTicks}"
