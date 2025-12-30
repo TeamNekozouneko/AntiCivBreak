@@ -12,7 +12,7 @@ import com.nekozouneko.antiCivBreak.checks.InvalidPacket
 import com.nekozouneko.antiCivBreak.commands.CivSimulateCommand
 import com.nekozouneko.antiCivBreak.commands.CivDebugCommand
 import com.nekozouneko.antiCivBreak.listeners.BlockBreakListener
-import com.nekozouneko.antiCivBreak.listeners.PacketListener
+import com.nekozouneko.antiCivBreak.listeners.PlayerDiggingPacketListener
 import com.nekozouneko.antiCivBreak.listeners.PlayerJoinListener
 import com.nekozouneko.antiCivBreak.listeners.PlayerQuitListener
 import com.nekozouneko.antiCivBreak.managers.PlayerManager
@@ -63,7 +63,7 @@ class AntiCivBreak : JavaPlugin() {
 
         //PacketEvents Listeners
         PacketEvents.getAPI().eventManager.registerListener(
-            PacketListener(),
+            PlayerDiggingPacketListener(),
             PacketListenerPriority.LOWEST,
         )
     }

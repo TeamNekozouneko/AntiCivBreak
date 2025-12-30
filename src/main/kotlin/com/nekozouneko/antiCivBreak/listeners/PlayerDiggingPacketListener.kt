@@ -10,7 +10,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.GameMode
 import org.bukkit.Material
 
-class PacketListener : PacketListener {
+class PlayerDiggingPacketListener : PacketListener {
     companion object {
         private val packetAboutBreakAction: List<DiggingAction> = listOf(
             DiggingAction.START_DIGGING,
