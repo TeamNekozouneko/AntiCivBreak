@@ -1,6 +1,8 @@
 package com.nekozouneko.antiCivBreak.checks
 
 import com.nekozouneko.antiCivBreak.checkers.BlockChecker
+import com.nekozouneko.antiCivBreak.managers.NotificationManager
+import com.nekozouneko.antiCivBreak.utils.CommonUtils
 import org.bukkit.FluidCollisionMode
 import org.bukkit.event.block.BlockBreakEvent
 
@@ -23,6 +25,10 @@ class ConsistencyRayTrace : BlockChecker() {
             FluidCollisionMode.NEVER,
             true
         ) ?: return
+
+        val debugMessage = "§8[§bConsistencyRayTrace§8] §fUser: ${e.player.name}, EyeLocation: ${CommonUtils.locationToString(e.player.eyeLocation)}, Distance: ${maxDistance}, HitBlock: ${result.hitBlock?.type}, HitEntity: ${result.hitEntity?.type}"
+        NotificationManager.sendDebugMessage(debugMessage)
+
         if(result.hitBlock != e.block) {
             violation(e)
             e.isCancelled = true
