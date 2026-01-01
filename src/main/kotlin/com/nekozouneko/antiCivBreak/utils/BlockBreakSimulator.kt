@@ -11,8 +11,9 @@ import kotlin.math.pow
 
 class BlockBreakSimulator {
     companion object {
-        const val END_STONE_HARDNESS = 3 //基本硬度
-        const val SMOOTH_TARGET_BUFFER_THRESHOLD_MULTIPLIER = 2
+        private const val END_STONE_HARDNESS = 3 //基本硬度
+        private const val SMOOTH_TARGET_BUFFER_THRESHOLD_MULTIPLIER = 2
+        private const val SMOOTH_TARGET_BUFFER_AMOUNT = 0.5
         private val properToolMultiple: Map<Material, Double> = mapOf(
             Material.WOODEN_PICKAXE to 2.0,
             Material.STONE_PICKAXE to 4.0,
@@ -73,19 +74,37 @@ class BlockBreakSimulator {
             var predictionTicks = END_STONE_HARDNESS / breakSpeed
 
             //Add buffer for Smooth Target
+            var isSmoothTarget = false
             if (manager.lastSimulatedTicks != null && manager.lastSimulatedTime != null){
                 val lastSimulateDiffTime = System.currentTimeMillis() - manager.lastSimulatedTime!!
                 val lastSimulateDiffTick = ceil(lastSimulateDiffTime.toDouble() / 50)
 
                 if(lastSimulateDiffTick > manager.lastSimulatedTicks!! * SMOOTH_TARGET_BUFFER_THRESHOLD_MULTIPLIER) {
-                    predictionTicks -= 0.5
+                    predictionTicks -= SMOOTH_TARGET_BUFFER_AMOUNT
+                    isSmoothTarget = true
                 }
             }else{
-                predictionTicks -= 0.5
+                predictionTicks -= SMOOTH_TARGET_BUFFER_AMOUNT
+                isSmoothTarget = true
+            }
+
+            //Geyser Characteristic
+            if(manager.isGeyser) {
+                predictionTicks *= 1.0F - 0.075F
             }
 
             //For Debug Mode
-            val debugMessage = "§8[§bBlockBreakSimulator§8] §fTotalTicks: ${totalTicks}, AirTicks ${airTicks}, InWaterTicks: ${inWaterTicks}"
+            val clientType = if(manager.isGeyser) {
+                "G"
+            }else{
+                "J"
+            }
+            val smoothTargetDisplay = if(isSmoothTarget){
+                "S"
+            }else{
+                ""
+            }
+            val debugMessage = "§8[§bBlockBreakSimulator§8] §fTotalTicks: ${totalTicks}, AirTicks ${airTicks}, InWaterTicks: ${inWaterTicks}, Prediction: ${predictionTicks} (${clientType}${smoothTargetDisplay})"
             NotificationManager.sendDebugMessage(debugMessage)
 
             return predictionTicks

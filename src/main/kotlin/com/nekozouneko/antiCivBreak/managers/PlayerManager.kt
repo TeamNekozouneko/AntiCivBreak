@@ -4,8 +4,8 @@ import com.github.retrooper.packetevents.PacketEvents
 import com.github.retrooper.packetevents.protocol.player.DiggingAction
 import com.github.retrooper.packetevents.protocol.player.User
 import com.nekozouneko.antiCivBreak.AntiCivBreak
+import com.nekozouneko.antiCivBreak.utils.GeyserUtils
 import com.nekozouneko.antiCivBreak.wrapper.Config
-import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -28,6 +28,8 @@ class PlayerManager(val player: Player) {
         get() = PacketEvents.getAPI().playerManager.getUser(player)
     val lastActions: List<DiggingAction>
         get() = packetLastActions.toList()
+    val isGeyser: Boolean
+        get() = GeyserUtils.isGeyserPlayer(player)
 
     private var packetLastActions = ArrayDeque<DiggingAction>(LAST_ACTION_QUEUE_SIZE)
 
