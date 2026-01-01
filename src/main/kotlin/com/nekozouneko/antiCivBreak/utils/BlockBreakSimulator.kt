@@ -12,7 +12,7 @@ import kotlin.math.pow
 class BlockBreakSimulator {
     companion object {
         private const val END_STONE_HARDNESS = 3 //基本硬度
-        private const val SMOOTH_TARGET_BUFFER_THRESHOLD_MULTIPLIER = 2
+        private const val SMOOTH_TARGET_BUFFER_THRESHOLD_MULTIPLIER = 3
         private const val SMOOTH_TARGET_BUFFER_AMOUNT = 0.5
         private val properToolMultiple: Map<Material, Double> = mapOf(
             Material.WOODEN_PICKAXE to 2.0,
