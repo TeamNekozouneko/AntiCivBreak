@@ -15,13 +15,19 @@ import kotlin.math.tanh
 class PlayerManager(val player: Player) {
     companion object{
         private const val LAST_ACTION_QUEUE_SIZE = 3
-        private const val LAST_SIMULATION_DIFF_TIME_QUEUE_SIZE = 20
+        private const val LAST_SIMULATION_DIFF_TIME_QUEUE_SIZE = 10
         private const val SECONDS_PER_DECREASE_VIOLATION = 60.0F
     }
+
+    enum class SimulationType {
+        SF,
+        FF
+    }
+
     var isDebugEnabled = false
     var lastSimulatedTicks: Double? = null
     var lastSimulatedTime: Long? = null
-    var lastSimulationDiffTime = ArrayDeque<Double>(LAST_SIMULATION_DIFF_TIME_QUEUE_SIZE)
+    var lastSimulationDiffTime = ArrayDeque<Pair<Double, SimulationType>>(LAST_SIMULATION_DIFF_TIME_QUEUE_SIZE)
     var violations: MutableMap<String, Float> = ConcurrentHashMap()
 
     val packetUser: User
@@ -68,11 +74,11 @@ class PlayerManager(val player: Player) {
         packetLastActions.addLast(action)
     }
 
-    fun addSimulationDiffTime(diffTime: Double){
+    fun addSimulationDiffTime(diffTime: Double, tag: SimulationType){
         if (lastSimulationDiffTime.size >= LAST_SIMULATION_DIFF_TIME_QUEUE_SIZE) {
             lastSimulationDiffTime.removeFirst()
         }
-        lastSimulationDiffTime.addLast(diffTime)
+        lastSimulationDiffTime.addLast(Pair(diffTime, tag))
     }
 
     fun setEndStoneDigging(action: DiggingAction) {

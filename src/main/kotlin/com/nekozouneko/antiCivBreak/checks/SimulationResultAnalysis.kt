@@ -21,7 +21,9 @@ class SimulationResultAnalysis : PacketChecker() {
         if(action.action != DiggingAction.FINISHED_DIGGING) return
 
         val reliability = manager.getSimulationReliability()
-        val analysisDiffTime = manager.lastSimulationDiffTime.sum() * reliability
+        val analysisDiffTime = manager.lastSimulationDiffTime.map {
+            it.first
+        }.sum() * reliability
 
         //For Debug Mode
         val debugMessage = "§8[§bSimulationResultAnalysis§8] §fUser: ${manager.player.name}, Reliability: ${reliability}, AnalysisDiffTime: ${analysisDiffTime}"

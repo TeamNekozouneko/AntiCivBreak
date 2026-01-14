@@ -36,8 +36,8 @@ class AntiCivBreak : JavaPlugin() {
             DestructionRangeLimitation()
         )
         val packetHandlers: List<PacketChecker> = listOf(
-            BreakingTimeSimulation(),
             FinishedPacketSimulation(),
+            BreakingTimeSimulation(),
             InvalidPacket(),
             SimulationResultAnalysis()
         )

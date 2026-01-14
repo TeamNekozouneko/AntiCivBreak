@@ -6,6 +6,7 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPl
 import com.nekozouneko.antiCivBreak.checkers.PacketChecker
 import com.nekozouneko.antiCivBreak.managers.NotificationManager
 import com.nekozouneko.antiCivBreak.managers.PlayerManager
+import com.nekozouneko.antiCivBreak.managers.PlayerManager.SimulationType
 import com.nekozouneko.antiCivBreak.utils.BlockBreakSimulator
 import com.nekozouneko.antiCivBreak.utils.PacketUtils
 
@@ -34,7 +35,9 @@ class BreakingTimeSimulation : PacketChecker() {
             diffTicks <= -CONSIDERED_DIFF_ERROR_TICKS -> -CONSIDERED_DIFF_ERROR_TICKS
             else -> diffTicks
         }
-        manager.addSimulationDiffTime(clampedDiffTicks)
+        if(manager.lastSimulationDiffTime.isEmpty() || manager.lastSimulationDiffTime.last().second == SimulationType.SF) {
+            manager.addSimulationDiffTime(clampedDiffTicks, SimulationType.SF)
+        }
 
         //For Debug Mode
         val debugMessage = "§8[§bBreakingTimeSimulation§8] §fUser: ${manager.player.name}, Prediction: ${predictionTicks}, Actual: ${totalTicks}, Diff: ${diffTicks}"
