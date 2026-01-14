@@ -32,6 +32,7 @@ class CivSimulateCommand : CommandExecutor, TabExecutor {
             "A" -> simulateA(manager.packetUser, x, y, z, tick)
             "B" -> simulateB(manager.packetUser, x, y, z, tick)
             "C" -> simulateC(manager.packetUser, x, y, z, tick)
+            "D" -> simulateD(manager.packetUser, x, y, z, tick)
             else -> return false
         }
 
@@ -52,6 +53,7 @@ class CivSimulateCommand : CommandExecutor, TabExecutor {
         )
     }
 
+    //A: START_DIGGING → FINISHED_DIGGINGの間隔を狭めて高速破壊を可能にする手法
     private fun simulateA(user: User, x: Int, y: Int, z: Int, tick: Long){
         object : BukkitRunnable() {
             private var count = 0
@@ -70,6 +72,7 @@ class CivSimulateCommand : CommandExecutor, TabExecutor {
         }.runTaskTimer(AntiCivBreak.instance, 0L, tick)
     }
 
+    //B: START_DIGGINGの後、FINISHED_DIGGINGを断続的に送信することで高速破壊を可能にする手法
     private fun simulateB(user: User, x: Int, y: Int, z: Int, tick: Long){
         user.receivePacket(generatePacket(DiggingAction.START_DIGGING, x, y, z))
         object : BukkitRunnable() {
@@ -88,6 +91,7 @@ class CivSimulateCommand : CommandExecutor, TabExecutor {
         }.runTaskTimer(AntiCivBreak.instance, 0L, tick)
     }
 
+    //C: BのFINISHED_DIGGINGを送る前にCANCELLED_DIGGINGを挟むことでBのバイパスを試みる手法
     private fun simulateC(user: User, x: Int, y: Int, z: Int, tick: Long){
         user.receivePacket(generatePacket(DiggingAction.START_DIGGING, x, y, z))
         object : BukkitRunnable() {
@@ -104,6 +108,26 @@ class CivSimulateCommand : CommandExecutor, TabExecutor {
                 }else {
                     user.receivePacket(generatePacket(DiggingAction.FINISHED_DIGGING, x, y, z))
                 }
+
+                count++
+            }
+        }.runTaskTimer(AntiCivBreak.instance, 0L, tick)
+    }
+
+    //D: BのFINISHED_DIGGINGを送る前にDiggingAction系統のパケットを挟むことでBのバイパスを試みる手法
+    private fun simulateD(user: User, x: Int, y: Int, z: Int, tick: Long){
+        user.receivePacket(generatePacket(DiggingAction.START_DIGGING, x, y, z))
+        object : BukkitRunnable() {
+            private var count = 0
+
+            override fun run() {
+                if (count >= 20) {
+                    this.cancel()
+                    return
+                }
+
+                user.receivePacket(generatePacket(DiggingAction.RELEASE_USE_ITEM, x, y, z))
+                user.receivePacket(generatePacket(DiggingAction.FINISHED_DIGGING, x, y, z))
 
                 count++
             }

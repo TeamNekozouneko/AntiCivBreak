@@ -49,7 +49,7 @@ class PlayerDiggingPacketListener : PacketListener {
             for(handler in AntiCivBreak.packetHandlers) handler.handle(manager, action, event)
         }
 
-        manager.addAction(action.action)
+        if(packetAboutBreakAction.contains(action.action)) manager.addAction(action.action)
 
         when(action.action){
             DiggingAction.START_DIGGING -> {
