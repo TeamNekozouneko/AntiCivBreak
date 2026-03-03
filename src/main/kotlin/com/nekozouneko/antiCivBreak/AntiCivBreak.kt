@@ -32,14 +32,14 @@ class AntiCivBreak : JavaPlugin() {
         private val playerManagers: MutableMap<UUID, PlayerManager> = ConcurrentHashMap()
 
         val blockHandlers: List<BlockChecker> = listOf(
-            ConsistencyRayTrace(),
             DestructionRangeLimitation()
         )
         val packetHandlers: List<PacketChecker> = listOf(
             FinishedPacketSimulation(),
             BreakingTimeSimulation(),
             InvalidPacket(),
-            SimulationResultAnalysis()
+            SimulationResultAnalysis(),
+            ConsistencyRayTrace()
         )
 
         fun initializePlayer(p: Player) {
