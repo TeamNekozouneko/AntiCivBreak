@@ -4,15 +4,10 @@ import com.github.retrooper.packetevents.PacketEvents
 import com.github.retrooper.packetevents.event.PacketListenerPriority
 import com.nekozouneko.antiCivBreak.checkers.BlockChecker
 import com.nekozouneko.antiCivBreak.checkers.PacketChecker
-import com.nekozouneko.antiCivBreak.checks.BreakingTimeSimulation
-import com.nekozouneko.antiCivBreak.checks.ConsistencyRayTrace
-import com.nekozouneko.antiCivBreak.checks.DestructionRangeLimitation
-import com.nekozouneko.antiCivBreak.checks.FinishedPacketSimulation
-import com.nekozouneko.antiCivBreak.checks.InvalidPacket
-import com.nekozouneko.antiCivBreak.checks.SimulationResultAnalysis
-import com.nekozouneko.antiCivBreak.commands.CivSimulateCommand
+import com.nekozouneko.antiCivBreak.checks.*
 import com.nekozouneko.antiCivBreak.commands.CivDebugCommand
 import com.nekozouneko.antiCivBreak.commands.CivReloadCommand
+import com.nekozouneko.antiCivBreak.commands.CivSimulateCommand
 import com.nekozouneko.antiCivBreak.listeners.BlockBreakListener
 import com.nekozouneko.antiCivBreak.listeners.PlayerDiggingPacketListener
 import com.nekozouneko.antiCivBreak.listeners.PlayerJoinListener
@@ -22,7 +17,7 @@ import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 class AntiCivBreak : JavaPlugin() {

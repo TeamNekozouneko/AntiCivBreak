@@ -2,19 +2,13 @@ package com.nekozouneko.antiCivBreak.checks
 
 import com.github.retrooper.packetevents.event.PacketReceiveEvent
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerDigging
-import com.nekozouneko.antiCivBreak.checkers.BlockChecker
 import com.nekozouneko.antiCivBreak.checkers.PacketChecker
 import com.nekozouneko.antiCivBreak.managers.NotificationManager
 import com.nekozouneko.antiCivBreak.managers.PlayerManager
 import com.nekozouneko.antiCivBreak.utils.CommonUtils
 import com.nekozouneko.antiCivBreak.utils.PacketUtils
 import org.bukkit.FluidCollisionMode
-import org.bukkit.Location
 import org.bukkit.entity.Player
-import org.bukkit.event.block.BlockBreakEvent
-import org.bukkit.util.Vector
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 class ConsistencyRayTrace : PacketChecker() {
     companion object{
